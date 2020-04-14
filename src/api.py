@@ -1,8 +1,7 @@
+import json
 from flask import Flask, request, jsonify, make_response
 from flask_restful import Api, Resource, reqparse
 from simplexml import dumps
-import json
-
 from estimator import estimator
 
 app = Flask(__name__)
