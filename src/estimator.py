@@ -3,20 +3,20 @@ def estimator(data):
   regionData = dict()
   regionData['name'] = 'Africa'
   regionData['avgAge'] = 19.7
-  regionData['avgDailyIncomeInUSD'] = 5
-  regionData['avgDailyIncomePopulation'] = 0.71
+  regionData['avg_daily_income_in_usd'] = 5
+  regionData['avg_daily_income_population'] = 0.71
 
   data['region'] = regionData
  
   #setup input parameters
   period_type = str(data['periodType'])
-  timeToElapse = int(data['timeToElapse'])
-  reportedCases = int(data['reportedCases'])
+  time_to_elapse = int(data['timeToElapse'])
+  reported_cases = int(data['reportedCases'])
   population = int(data['population'])
-  totalHospitalBeds = int(data['totalHospitalBeds'])
+  total_hospital_beds = int(data['totalHospitalBeds'])
 
-  avgDailyIncomeInUSD = data['region']['avgDailyIncomeInUSD']
-  avgDailyIncomePopulation = data['region']['avgDailyIncomePopulation']
+  avg_daily_income_in_usd = data['region']['avgDailyIncomeInUSD']
+  avg_daily_income_population = data['region']['avgDailyIncomePopulation']
 
   
   # setup output parameters
@@ -24,14 +24,14 @@ def estimator(data):
   
   # estimates duration in days
   if period_type == 'months':
-    noOfDays = timeToElapse*30
+    noOfDays = time_to_elapse*30
   elif period_type == 'weeks':
-    noOfDays = timeToElapse*7
+    noOfDays = time_to_elapse*7
   else:
-    noOfDays = timeToElapse
+    noOfDays = time_to_elapse
 
-  impact['currentlyInfected'] = reportedCases*10
-  severImpact['currentlyInfected'] = reportedCases*50
+  impact['currentlyInfected'] = reported_cases*10
+  severImpact['currentlyInfected'] = reported_cases*50
 
   # factor for number of infected people in a given day
   factor = int(noOfDays/3)
@@ -44,8 +44,8 @@ def estimator(data):
   severImpact['severeCasesByRequestedTime'] = int(0.15*severImpact['infectionsByRequestedTime'])
 
   # estimated number of available hospital beds for severe COVID-19 positive patients.
-  impact['hospitalBedsByRequestedTime'] = totalHospitalBeds - impact['severeCasesByRequestedTime']
-  severImpact['hospitalBedsByRequestedTime'] = totalHospitalBeds - severImpact['severeCasesByRequestedTime']
+  impact['hospitalBedsByRequestedTime'] = total_hospital_beds - impact['severeCasesByRequestedTime']
+  severImpact['hospitalBedsByRequestedTime'] = total_hospital_beds - severImpact['severeCasesByRequestedTime']
 
   # estimated number of severe positive cases that will require ICU care.
   impact['casesForICUByRequestedTime'] = int(0.05*impact['infectionsByRequestedTime'])
@@ -56,8 +56,8 @@ def estimator(data):
   severImpact['casesForVentilatorsByRequestedTime'] = int(0.02*severImpact['infectionsByRequestedTime'])
 
   # compute the average daily for specified period
-  impact['dollarsInFlight'] = int((impact['infectionsByRequestedTime']*avgDailyIncomePopulation*avgDailyIncomeInUSD)/noOfDays)
-  severImpact['dollarsInFlight'] = int((severImpact['infectionsByRequestedTime']*avgDailyIncomePopulation*avgDailyIncomeInUSD)/noOfDays)
+  impact['dollarsInFlight'] = int((impact['infectionsByRequestedTime']*avg_daily_income_population*avg_daily_income_in_usd)/noOfDays)
+  severImpact['dollarsInFlight'] = int((severImpact['infectionsByRequestedTime']*avg_daily_income_population*avg_daily_income_in_usd)/noOfDays)
 
   # Output data
   data = {
