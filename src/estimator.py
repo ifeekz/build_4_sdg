@@ -9,7 +9,7 @@ def estimator(data):
   data['region'] = regionData
  
   #setup input parameters
-  period_type = str(data['period_type'])
+  period_type = str(data['periodType'])
   timeToElapse = int(data['timeToElapse'])
   reportedCases = int(data['reportedCases'])
   population = int(data['population'])
@@ -23,9 +23,9 @@ def estimator(data):
   impact = severImpact = dict()
   
   # estimates duration in days
-  if periodType == 'months':
+  if period_type == 'months':
     noOfDays = timeToElapse*30
-  elif periodType == 'weeks':
+  elif period_type == 'weeks':
     noOfDays = timeToElapse*7
   else:
     noOfDays = timeToElapse
