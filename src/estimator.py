@@ -9,7 +9,7 @@ def estimator(data):
   data['region'] = regionData
  
   #setup input parameters
-  periodType = str(data['periodType'])
+  period_type = str(data['period_type'])
   timeToElapse = int(data['timeToElapse'])
   reportedCases = int(data['reportedCases'])
   population = int(data['population'])

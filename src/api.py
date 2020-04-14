@@ -21,6 +21,11 @@ def output_xml(data, code, headers=None):
 
     return resp
 
+@app.after_request
+def after_request(response):
+    app.logger.info('%s %s %s', request.method, request.url_rule, response.status_code)
+    return response
+
 class Covid19EstimatorApi(Resource):
     def __init__(self, representations=None):
         self.representations = representations
